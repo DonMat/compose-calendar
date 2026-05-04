@@ -117,9 +117,9 @@ fun <T> CalendarDay(
                         }
                     )
                 }
-                if (events.isNotEmpty()) {
+//                if (events.isNotEmpty()) {
                     EventIcon(events, eventIndicator, maxIndicators, indicatorLayout)
-                }
+//                }
             }
         }
     }
