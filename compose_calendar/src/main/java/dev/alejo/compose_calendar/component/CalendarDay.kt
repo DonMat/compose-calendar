@@ -16,13 +16,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import dev.alejo.compose_calendar.CalendarEvent
 import dev.alejo.compose_calendar.util.CalendarColors
 import dev.alejo.compose_calendar.util.CalendarDefaults
@@ -47,6 +50,7 @@ import java.time.LocalDate
  * @param isContentClickable Whether the day cell is clickable. If true, it will trigger the [onDayClick] callback.
  * @param onDayClick Callback triggered when the day is clicked, providing the date and its associated events.
  * @param calendarColors Color configuration for the background and content, defined via [CalendarColors].
+ * @param selectedDate The date to be highlighted as selected. If null, no date will be marked as selected.
  */
 
 @Composable
@@ -58,7 +62,8 @@ fun <T> CalendarDay(
     indicatorLayout: CalendarDefaults.IndicatorLayout,
     isContentClickable: Boolean,
     onDayClick: (date: LocalDate, events: List<CalendarEvent<T>>) -> Unit = { _, _ -> },
-    calendarColors: CalendarColors
+    calendarColors: CalendarColors,
+    selectedDate: LocalDate?
 ) {
     day?.let { date ->
         Box(
@@ -86,17 +91,32 @@ fun <T> CalendarDay(
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
+                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top)
             ) {
-                Text(
-                    text = date.dayOfMonth.toString(),
-                    textAlign = TextAlign.Center,
-                    color = if (events.isNotEmpty()) {
-                        calendarColors.eventContentColor
-                    } else {
-                        calendarColors.contentColor
-                    }
-                )
+                Box(
+                    modifier = Modifier
+                        .defaultMinSize(minWidth = 32.dp, minHeight = 32.dp)
+                        .then (
+                            selectedDate?.let { selectedDate ->
+                                Modifier.background(
+                                    color = if (selectedDate == date) calendarColors.selectedDayCircleColor else Color.Transparent,
+                                    shape = CircleShape
+                                )
+                            } ?: Modifier
+                        )
+                        .padding(4.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = date.dayOfMonth.toString(),
+                        textAlign = TextAlign.Center,
+                        color = if (events.isNotEmpty()) {
+                            calendarColors.eventContentColor
+                        } else {
+                            calendarColors.contentColor
+                        }
+                    )
+                }
                 if (events.isNotEmpty()) {
                     EventIcon(events, eventIndicator, maxIndicators, indicatorLayout)
                 }
@@ -133,6 +153,7 @@ fun <T> EventIcon(
             CalendarDefaults.IndicatorLayout.Column -> {
                 IndicatorColumn(itemsToShow, indicator, events)
             }
+
             CalendarDefaults.IndicatorLayout.Row -> {
                 IndicatorRow(itemsToShow, indicator, events)
             }
@@ -154,7 +175,7 @@ internal fun <T> IndicatorColumn(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(Dimens.EventIndicatorContainerSize),
+            .defaultMinSize(minHeight = Dimens.EventIndicatorContainerSize),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(
             Dimens.EventsSpacedBy,

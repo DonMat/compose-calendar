@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dev.alejo.compose_calendar.CalendarEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.time.LocalDate
 
 class MainViewModel : ViewModel() {
@@ -18,6 +19,11 @@ class MainViewModel : ViewModel() {
         )
     }
 
+    fun onDateSelected(date: LocalDate){
+        _state.update {
+            it.copy(selectedDate = date)
+        }
+    }
     private fun getListOfEvents() = listOf(
         CalendarEvent(
             data = MyData("Event 1"),

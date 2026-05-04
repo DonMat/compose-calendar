@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
             val state by viewModel.state.collectAsState()
             ComposeCalendarTheme {
                 Scaffold { innerPadding ->
-                    Calendar(Modifier.padding(innerPadding), state)
+                    Calendar(Modifier.padding(innerPadding), state, viewModel::onDateSelected)
                 }
             }
         }
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Calendar(modifier: Modifier = Modifier, state: CalendarState) {
+fun Calendar(modifier: Modifier = Modifier, state: CalendarState, onDateSelected: (LocalDate)-> Unit) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -64,14 +64,18 @@ fun Calendar(modifier: Modifier = Modifier, state: CalendarState) {
             onDayClick = { date, event ->
                 println(date.toString())
                 println(event.toString())
+                onDateSelected(date)
             },
             eventIndicator = { _, _, _ ->
                 IndicatorContent(Modifier.size(8.dp))
-            }
+            },
+            selectedDate = state.selectedDate
         )
         ComposeCalendar(
             events = state.events,
-            onDayClick = { _, _ -> },
+            onDayClick = { date, _ ->
+                onDateSelected(date)
+            },
             eventIndicator = { _, position, events ->
                 if (position < 2) {
                     IndicatorContent(Modifier.fillMaxWidth().height(8.dp))
@@ -86,10 +90,11 @@ fun Calendar(modifier: Modifier = Modifier, state: CalendarState) {
             },
             maxIndicators = CalendarDefaults.IndicatorLimit.Three,
             indicatorLayout = CalendarDefaults.IndicatorLayout.Column,
-            isContentClickable = false,
+            isContentClickable = true,
             onPreviousMonthClick = { println("Prev") },
             onNextMonthClick = { println("Next") },
-            monthNameFormat = TextStyle.FULL_STANDALONE
+            monthNameFormat = TextStyle.FULL_STANDALONE,
+            selectedDate = state.selectedDate
         )
     }
 }
@@ -151,6 +156,7 @@ fun ComposeCalendarPreview() {
         state = CalendarState(
             events = getListOfEvents(),
             simpleEvents = getListOfEvents().map { it.date }
-        )
+        ),
+        onDateSelected = {}
     )
 }

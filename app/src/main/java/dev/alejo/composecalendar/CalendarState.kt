@@ -5,5 +5,6 @@ import java.time.LocalDate
 
 data class CalendarState(
     val events: List<CalendarEvent<MyData>> = emptyList(),
-    val simpleEvents: List<LocalDate> = emptyList()
+    val simpleEvents: List<LocalDate> = emptyList(),
+    val selectedDate: LocalDate? = null
 )

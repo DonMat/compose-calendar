@@ -47,6 +47,7 @@ import java.util.Locale
  * @param onPreviousMonthClick Lambda invoked when the user navigates to the previous month.
  * @param onNextMonthClick Lambda invoked when the user navigates to the next month.
  * @param monthNameFormat [TextStyle] to determine the month name display format.
+ * @param selectedDate The date to be highlighted as selected. If null, no date will be marked as selected.
  */
 
 @Composable
@@ -63,7 +64,8 @@ fun <T> ComposeCalendar(
     isContentClickable: Boolean = true,
     onPreviousMonthClick: () -> Unit = {},
     onNextMonthClick: () -> Unit = {},
-    monthNameFormat: TextStyle = TextStyle.FULL
+    monthNameFormat: TextStyle = TextStyle.FULL,
+    selectedDate: LocalDate? = null
 ) {
     val calendarCache = remember(firstDayOfWeek) {
         mutableStateOf(buildCalendarCache(firstDayOfWeek))
@@ -133,7 +135,8 @@ fun <T> ComposeCalendar(
             maxIndicators = maxIndicators,
             indicatorLayout = indicatorLayout,
             calendarColors = calendarColors,
-            isContentClickable = isContentClickable
+            isContentClickable = isContentClickable,
+            selectedDate = selectedDate
         )
     }
 }
@@ -158,6 +161,7 @@ fun <T> ComposeCalendar(
  * @param onPreviousMonthClick Lambda invoked when the user navigates to the previous month.
  * @param onNextMonthClick Lambda invoked when the user navigates to the next month.
  * @param monthNameFormat [TextStyle] to determine the month name display format.
+ * @param selectedDate The date to be highlighted as selected. If null, no date will be marked as selected.
  */
 
 @Composable
@@ -174,7 +178,8 @@ fun SimpleComposeCalendar(
     isContentClickable: Boolean = true,
     onPreviousMonthClick: () -> Unit = {},
     onNextMonthClick: () -> Unit = {},
-    monthNameFormat: TextStyle = TextStyle.FULL
+    monthNameFormat: TextStyle = TextStyle.FULL,
+    selectedDate: LocalDate? = null
 ) {
     ComposeCalendar<Unit>(
         modifier = modifier,
@@ -191,6 +196,7 @@ fun SimpleComposeCalendar(
         isContentClickable = isContentClickable,
         onPreviousMonthClick = onPreviousMonthClick,
         onNextMonthClick = onNextMonthClick,
-        monthNameFormat = monthNameFormat
+        monthNameFormat = monthNameFormat,
+        selectedDate = selectedDate
     )
 }

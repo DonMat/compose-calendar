@@ -31,6 +31,7 @@ import java.time.LocalDate
  * @param indicatorLayout Specifies the layout style (Column, Row, or Grid) for the event indicators.
  * @param calendarColors Contains color definitions for the calendar's appearance.
  * @param isContentClickable Whether each calendar day is clickable or not.
+ * @param selectedDate The date to be highlighted as selected. If null, no date will be marked as selected.
  */
 
 @Composable
@@ -42,7 +43,8 @@ fun <T> CalendarBody(
     maxIndicators: CalendarDefaults.IndicatorLimit,
     indicatorLayout: CalendarDefaults.IndicatorLayout,
     calendarColors: CalendarColors,
-    isContentClickable: Boolean
+    isContentClickable: Boolean,
+    selectedDate: LocalDate?
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(7),
@@ -64,7 +66,8 @@ fun <T> CalendarBody(
                 indicatorLayout = indicatorLayout,
                 isContentClickable = isContentClickable,
                 onDayClick = { date, events -> onDayClick(date, events) },
-                calendarColors = calendarColors
+                calendarColors = calendarColors,
+                selectedDate = selectedDate
             )
         }
     }

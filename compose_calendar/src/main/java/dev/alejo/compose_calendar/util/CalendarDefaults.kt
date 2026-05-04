@@ -91,6 +91,7 @@ object CalendarDefaults {
      * @param navigationDisableContentColor The content color for disabled navigation buttons.
      * @param eventBackgroundColor The background color for cells with events.
      * @param eventContentColor The text/icon color for cells with events.
+     * @param selectedDayCircleColor The selected day number circle highlight color
      *
      * @return A [CalendarColors] object containing the specified or default color values.
      */
@@ -107,6 +108,7 @@ object CalendarDefaults {
         navigationDisableContentColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
         eventBackgroundColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
         eventContentColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
+        selectedDayCircleColor: Color = MaterialTheme.colorScheme.secondary
     ): CalendarColors = CalendarColors(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
@@ -117,7 +119,8 @@ object CalendarDefaults {
         navigationDisableContainerColor = navigationDisableContainerColor,
         navigationDisableContentColor = navigationDisableContentColor,
         eventBackgroundColor = eventBackgroundColor,
-        eventContentColor = eventContentColor
+        eventContentColor = eventContentColor,
+        selectedDayCircleColor = selectedDayCircleColor
     )
 }
 
@@ -138,6 +141,7 @@ object CalendarDefaults {
  * @property navigationDisableContentColor The color used for disabled navigation content (text/icons).
  * @property eventBackgroundColor The background color for event indicators or event cells.
  * @property eventContentColor The color used for event indicator content such as text or icons.
+ * @property selectedDayCircleColor The color used for selected day highlight.
  */
 @Immutable
 data class CalendarColors(
@@ -150,5 +154,6 @@ data class CalendarColors(
     val navigationDisableContainerColor: Color,
     val navigationDisableContentColor: Color,
     val eventBackgroundColor: Color,
-    val eventContentColor: Color
+    val eventContentColor: Color,
+    val selectedDayCircleColor: Color
 )
