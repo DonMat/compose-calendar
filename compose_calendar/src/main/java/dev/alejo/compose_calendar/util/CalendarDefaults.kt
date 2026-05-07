@@ -71,7 +71,6 @@ object CalendarDefaults {
         val Default = 16.dp
         val ButtonSize = 44.dp
         val EventIndicatorContainerSize = 32.dp
-        val EventColumnIndicatorContainerSize = 80.dp
         val DaySize = 48.dp
     }
 

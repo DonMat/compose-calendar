@@ -175,7 +175,7 @@ internal fun <T> IndicatorColumn(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = Dimens.EventColumnIndicatorContainerSize),
+            .defaultMinSize(minHeight = Dimens.EventIndicatorContainerSize),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(
             Dimens.EventsSpacedBy,
