@@ -23,6 +23,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("demo") {
+            initWith(getByName("release"))
+        }
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -36,7 +40,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
 }
 
